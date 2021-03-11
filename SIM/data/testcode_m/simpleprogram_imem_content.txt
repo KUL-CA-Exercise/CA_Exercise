@@ -1,0 +1,41 @@
+20100007 // addi $s0, $0, 7
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+22110002 // addi $s1, $s0, 2
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+ac110000 // sw $s1, 0($0)
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+8c120000 // lw $s2, 0($0)
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+02129820 // add $s3, $s0, $s2
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+12320009 // beq $s1,$s2, FINAL
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+0211a020 // add $s4, $s0, $s1
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+0253a020 // FINAL: add $s4, $s2,$s3
+ffffffff
+ffffffff
+ffffffff
+ffffffff
+f8000000 // STOP instruction

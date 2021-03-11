@@ -1,0 +1,15 @@
+# MICAS INCISIV 15.20.058 (Cadence Release 2018-2019)
+
+export CDS_INCV=/esat/micas-data/software/Cadence/incisiv_15.20.058
+export PATH="$PATH:$CDS_INCV/bin:$CDS_INCV/tools/bin:CDS_INCV/tools/systemc/gcc/bin"
+export SOCV_KIT_HOME=$CDS_INCV/kits/VerificationKit
+export PATH="$PATH:$CDS_INCV/kits/VerificationKit/bin"
+
+#source $SOCV_KIT_HOME/env.sh
+
+alias help_cds_incisiv='$CDS_INCV/bin/cdnshelp &'
+
+# irun, eplanner, emanager/vmanager, imc, simvision, simcompare, viewWaveform
+# nclaunch, ncvhdl, ncvlog, ncsc, ncelab, ncsim, ncls, nchelp, hal, iev, ifv, specman,
+# start_kit start_nav
+

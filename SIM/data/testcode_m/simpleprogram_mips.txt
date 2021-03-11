@@ -1,0 +1,41 @@
+addi $s0, $0, 7
+nop
+nop
+nop
+nop
+addi $s1, $s0, 2
+nop
+nop
+nop
+nop
+sw $s1, 0($0)
+nop
+nop
+nop
+nop
+lw $s2, 0($0)
+nop
+nop
+nop
+nop
+add $s3, $s0, $s2
+nop
+nop
+nop
+nop
+beq $s1,$s2, FINAL
+nop
+nop
+nop
+nop
+add $s4, $s0, $s1
+nop
+nop
+nop
+nop
+FINAL: add $s4, $s2,$s3
+nop
+nop
+nop
+nop
+

@@ -1,0 +1,15 @@
+# MICAS Synopsys Synthesis 2017.09
+# By Ben Geeraerts, February 7th 2018
+
+export SYNOPSYS=/esat/micas-data/software/synopsys_2017.09
+export SYNOPSYS_ROOT=/esat/micas-data/software/synopsys_2017.09
+export SYNOPSYS_SYN_ROOT=/esat/micas-data/software/synopsys_2017.09
+export SYNOPSYS_LC_ROOT=/esat/micas-data/software/lc_2017.12
+export SNPSLMD_LICENSE_FILE=1709@licserv
+export PATH=$PATH:$SYNOPSYS/amd64/syn/bin:$SYNOPSYS/bin
+
+# Documentation
+
+# See the FEVdocs dir
+# To start synopsys : design_vision
+
