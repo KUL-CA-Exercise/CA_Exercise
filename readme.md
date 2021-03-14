@@ -25,13 +25,13 @@ If you are not familiar with SSH connections and/or git versioning tool, please 
 
 ### To run cycle accurate simulations (to check functional correctness)
 
-<img src="https://raw.githubusercontent.com/KUL-CA-Exercise/CA_Exercise/laubeu63/readme/.github/images/image001.png" style="float: right;" >
+<img src="https://raw.githubusercontent.com/KUL-CA-Exercise/CA_Exercise/main/.github/images/image001.png" style="float: right;" >
 
 To run the simulation of the processor:
 
 *	Run the tool script going to the folder tools_scripts. Run the command `source incisiv_15.20.058.rc`
 *	Go to the folder SIM. Run the command `make nc_gui` through a terminal (Optionally run the command `make nc` to use the tool without graphical interface which checks the correctness of the program). This command will call all the hdl files declared in `SIM/files_verilog.f` and will execute the testbench `RTL/cpu_tb.v`. This testbench (1) declares an instance of the cpu  (2) loads the instruction memory from the file` SIM/data/imem_content.txt` (3) loads the data memory from the file `SIM/data/dmem_content.txt`  (4) Starts the execution of the instructions.
-*	After running the command, the NC verilog graphical interface will open. In the left part of the window the whole hierarchy of the design could be found. With the objective of displaying the internal signals for debugging go to the target submodule and select it. Afterwards do right-click over the signals to display and select “Send to Waveform Window”. Finally run the simulation with the button: <img src="https://raw.githubusercontent.com/KUL-CA-Exercise/CA_Exercise/laubeu63/readme/.github/images/image002.png">
+*	After running the command, the NC verilog graphical interface will open. In the left part of the window the whole hierarchy of the design could be found. With the objective of displaying the internal signals for debugging go to the target submodule and select it. Afterwards do right-click over the signals to display and select “Send to Waveform Window”. Finally run the simulation with the button: <img src="https://raw.githubusercontent.com/KUL-CA-Exercise/CA_Exercise/main/.github/images/image002.png">
 
 
 ### To run synthesis (for power and area estimates)
@@ -111,7 +111,7 @@ Now that you know how a processor work you can implement “from scratch” anot
 
 *HINT: use the files in this repo as a reference, keep the same file names for testing and synthesis*
 
-<img src="https://raw.githubusercontent.com/KUL-CA-Exercise/CA_Exercise/laubeu63/readme/.github/images/image003.png">
+<img src="https://raw.githubusercontent.com/KUL-CA-Exercise/CA_Exercise/main/.github/images/image003.png">
 
 Now that you designed the core you need to test every supported instruction. The idea is to use the same testing environment provided in the exercise’s material for a simple program. Of course, you need to write a new instruction memory input file, which contains RISC-V binaries. If you rename your files as explained in the simulation guide above, the verification will start and check only few instructions. If you open the cpu_tb.v file in the RTL directory, searching for the test_basic task, you will see how such basic test is done; try to understand it and add the testing of all the instruction you need to support. (HINT: it is important that the destination registers you set in the instructions is coherent with the one you check in the testbench. Change input data memory state if required.)
 After fully checking your design run the synthesis. Is it any better from the MIPS core?
