@@ -61,9 +61,9 @@ Complete the internals of the control unit to handle the following instructions:
 
 The processor completed in the last exercise is able to execute multiplications through sums and shifting since there is no hardware support to carry out the multiplication in one cycle. With the purpose of boosting performance, your task will be to add hardware support for multiplication and evaluating its impact on performance, area and timing. The processor must be able to process the multiplication instruction MULT. The format of the instruction is the following:
 
-| [31:26] Opcode | [25:21] source reg 1 | [20:16] source reg 2 | [15:11] destination reg | [5:0] function Field |
-| ------ | ----- | ----- | ----- | ------ |
-| 000000 | XXXXX | XXXXX | XXXXX | 011000 |
+| [31:25] funct7 | [24:20] rs2 | [19:15] rs1 | [14:12] funct3 | [11:7] rd | [6:0] opcode |
+| ------- | ----- | ----- | --- | ----- | ------- |
+| 0000001 | XXXXX | XXXXX | 000 | XXXXX | 0110011 |
 
 Three files might need to be modified for this purpose: `control.unit.v`,  `alu_control.v` and `alu.v`. To test the performance and correctness of your design, load the assembly test code “MULT2” which uses now the implemented MULT instruction to carry out the same 5 multiplications and sums of the testcode “MULT1”.   After updating your design, run the simulation and synthesis again.
 
@@ -88,7 +88,9 @@ For a processor with 5 pipelined stages (Instruction Fetch (IF), Instruction Dec
 Insert the pipelined registers where necessary, using the module `reg_arstn_en`. 
 
 ``` verilog
-reg_arstn_en #(.DATA_W(16)) signal_pipe_ID_EX( 
+reg_arstn_en#(
+    .DATA_W(16)
+) signal_pipe_ID_EX( 
       .clk   (clk       ),
       .arst_n(arst_n    ),
       .din   (signal_IF  ),
@@ -101,17 +103,6 @@ This module implements a register with variable width, which is set through the 
 ### 4 - Pipelined Processor with Data-Hazard Resolution
 Since the pipelined processor implemented does not have support for handling data hazards, the execution of more complex code containing branches or data dependencies would not work properly.  Add hardware support for forwarding and stalling in order to achieve this functionality. Run synthesis, and compare the results with previous implementations.  After updating your design, run the test code MULT3 and ensure the correct functionality. Finally, run the synthesis scripts
 
-### 5 - Optional Exercise
+### 5 - Advanced Acceleration
 
-Now that you know how a processor work you can implement “from scratch” another ISA.
-
-[Available online](https://riscv.org/technical/specifications/) it is possible to find the official technical specification for the RISC-V Instruction Set Architectures. As RISC-V was designed for flexibility and modularity, there are different base versions and extensions that one can choose to support in hardware. We will use only part of the RV32I Base Integer Instruction Set (described in Chapter 2 pp 13-30) but in the document you can have a look at all the others. For this part of the project you need to write the Verilog code (or change the one you used so far) for the instructions <span style="background-color:yellow">highlighted below</span> (you can use either the single cycle or the pipelined version). You can also find the list at page 130 of the specifications.
-
-*Is anything missing in the list? How do you implement the NOP and STOP instructions?*
-
-*HINT: use the files in this repo as a reference, keep the same file names for testing and synthesis*
-
-<img src="https://raw.githubusercontent.com/KUL-CA-Exercise/CA_Exercise/main/.github/images/image003.png">
-
-Now that you designed the core you need to test every supported instruction. The idea is to use the same testing environment provided in the exercise’s material for a simple program. Of course, you need to write a new instruction memory input file, which contains RISC-V binaries. If you rename your files as explained in the simulation guide above, the verification will start and check only few instructions. If you open the cpu_tb.v file in the RTL directory, searching for the test_basic task, you will see how such basic test is done; try to understand it and add the testing of all the instruction you need to support. (HINT: it is important that the destination registers you set in the instructions is coherent with the one you check in the testbench. Change input data memory state if required.)
-After fully checking your design run the synthesis. Is it any better from the MIPS core?
+TODO

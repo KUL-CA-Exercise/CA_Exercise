@@ -1,41 +1,10 @@
-20100007 // addi $s0, $0, 7
-ffffffff
-ffffffff
-ffffffff
-ffffffff
-22110002 // addi $s1, $s0, 2
-ffffffff
-ffffffff
-ffffffff
-ffffffff
-ac110000 // sw $s1, 0($0)
-ffffffff
-ffffffff
-ffffffff
-ffffffff
-8c120000 // lw $s2, 0($0)
-ffffffff
-ffffffff
-ffffffff
-ffffffff
-02129820 // add $s3, $s0, $s2
-ffffffff
-ffffffff
-ffffffff
-ffffffff
-12320009 // beq $s1,$s2, FINAL
-ffffffff
-ffffffff
-ffffffff
-ffffffff
-0211a020 // add $s4, $s0, $s1
-ffffffff
-ffffffff
-ffffffff
-ffffffff
-0253a020 // FINAL: add $s4, $s2,$s3
-ffffffff
-ffffffff
-ffffffff
-ffffffff
-f8000000 // STOP instruction
+00700413 // addi x8, x0, 7
+00240493 // addi x9, x8, 2
+00902023 // sw x9, 0(x0)
+00002903 // lw x18, 0(x0)
+012409B3 // add x19, x8, x18
+01248463 // beq x9, x18, FINAL
+00940A33 // add x20, x8, x9
+01390A33 // FINAL: add x20, x18, x19
+00891AB3 // sll x21, x18, x8
+0000007E // STOP

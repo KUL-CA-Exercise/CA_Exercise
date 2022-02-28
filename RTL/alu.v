@@ -16,7 +16,6 @@ module alu #(
 		input   wire signed [DATA_W-1:0] alu_in_0,
       input   wire signed [DATA_W-1:0] alu_in_1,
       input   wire        [       3:0] alu_ctrl,
-      input   wire        [       4:0] shft_amnt,
 		output  reg  signed [DATA_W-1:0] alu_out,
 		output  reg		                  zero_flag,
       output  reg                      overflow
@@ -31,9 +30,8 @@ module alu #(
    parameter [3:0] ADD_OP = 4'd2;
    parameter [3:0] SLL_OP = 4'd3;
    parameter [3:0] SRL_OP = 4'd4;
-   parameter [3:0] SUB_OP = 4'd5;
+   parameter [3:0] SUB_OP = 4'd6;
    parameter [3:0] SLT_OP = 4'd7;
-   parameter [3:0] NOR_OP = 4'd12;
 
 
    //REG AND WIRE DECLARATION
@@ -62,12 +60,11 @@ module alu #(
    //ARITHMETIC and LOGIC OPERATIONS
    always@(*)begin
       add_out  =   alu_in_0 + alu_in_1;
-      sll_out  =   alu_in_1 << shft_amnt;
-      srl_out  =   alu_in_1 >> shft_amnt;
+      sll_out  =   alu_in_0 << alu_in_1;
+      srl_out  =   alu_in_0 >> alu_in_1;
       sub_out  =   alu_in_0 - alu_in_1;
       and_out  =   alu_in_0 & alu_in_1;
       or_out   =   alu_in_0 | alu_in_1;
-      nor_out  = ~(alu_in_0 | alu_in_1);
       slt_out  =  (alu_in_0 < alu_in_1) ? 1:0;        //Zero extend the 1 bit slt flag to a DATA_W bit value     
    end
 
@@ -78,7 +75,6 @@ module alu #(
 		case (alu_ctrl)
 			AND_OP:  alu_out = and_out;
 			OR_OP:   alu_out =  or_out;
-			NOR_OP:  alu_out = nor_out;
 			ADD_OP:  alu_out = add_out;			
 			SUB_OP:  alu_out = sub_out;
 			SLT_OP:  alu_out = slt_out;
@@ -116,8 +112,6 @@ module alu #(
          overflow_sub = 1'b0;
       end
    end
-
-
 
    always@(*)begin
       if(alu_ctrl == ADD_OP)

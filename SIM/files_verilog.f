@@ -3,6 +3,7 @@
 ../RTL/branch_unit.v
 ../RTL/control_unit.v
 ../RTL/cpu.v
+../RTL/immediate_extend_unit.v
 ../RTL/mux_2.v
 ../RTL/pc.v
 ../RTL/reg_arstn.v

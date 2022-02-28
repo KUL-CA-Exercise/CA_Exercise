@@ -7,6 +7,7 @@ set verilog_files { \
    branch_unit
    control_unit
    cpu
+   immediate_extend_unit
    mux_2
    pc
    reg_arstn

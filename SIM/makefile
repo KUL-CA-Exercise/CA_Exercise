@@ -37,13 +37,13 @@ compile_postsynth: clean
 	
 
 
-nc_gui: clean
+nc_gui: 
 	reset; \
 	ncverilog +sv -f files_verilog.f  \
 	+nc64bit +nctimescale+1ns/10ps +access+rwc -ALLOWREDEFINITION \
 	-linedebug +gui &
 	
-nc: 	clean
+nc: 
 	reset; \
 	ncverilog +sv -f files_verilog.f  \
 	+nc64bit +nctimescale+1ns/10ps +access+rwc -ALLOWREDEFINITION \

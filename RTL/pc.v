@@ -32,7 +32,7 @@ module pc#(
    localparam  [DATA_W-1:0] PC_INCREASE= {{(DATA_W-3){1'b0}},3'd4};
   
 
-   wire [DATA_W-1:0] pc_r,next_pc,next_pc_i;
+   wire [DATA_W-1:0] pc_r, next_pc, next_pc_i;
    reg               pc_src;
       
 
