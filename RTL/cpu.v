@@ -72,6 +72,7 @@ pc #(
    .updated_pc(updated_pc)
 );
 
+// The instruction memory.
 sram_BW32 #(
    .ADDR_W(9 ),
    .DATA_W(32)
@@ -89,7 +90,7 @@ sram_BW32 #(
    .rdata_ext(rdata_ext     )
 );
 
-
+// The data memory.
 sram_BW64 #(
    .ADDR_W(10),
    .DATA_W(64)
@@ -134,9 +135,8 @@ register_file #(
    .rdata_2  (regfile_rdata_2   )
 );
 
-
 alu_control alu_ctrl(
-   .func7_30       (instruction[30]   ),
+   .func7_5       (instruction[30]   ),
    .func3          (instruction[14:12]),
    .alu_op         (alu_op            ),
    .alu_control    (alu_control       )
@@ -162,9 +162,6 @@ alu#(
    .overflow (                )
 );
 
-
-
-
 mux_2 #(
    .DATA_W(64)
 ) regfile_data_mux (
@@ -173,8 +170,6 @@ mux_2 #(
    .select_a (mem_2_reg    ),
    .mux_out  (regfile_wdata)
 );
-
-
 
 branch_unit#(
    .DATA_W(64)

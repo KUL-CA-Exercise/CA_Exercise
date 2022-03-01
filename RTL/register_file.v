@@ -59,7 +59,7 @@ module register_file#(
             reg_array[idx] <= 'b0;
          end
       end else begin
-         for(idx=0; idx<N_REG; idx =idx+1)begin
+         for(idx=1; idx<N_REG; idx =idx+1)begin  // start from reg[1], as x0 should be constant-0.
             reg_array[idx] <= reg_array_nxt[idx];
          end
       end

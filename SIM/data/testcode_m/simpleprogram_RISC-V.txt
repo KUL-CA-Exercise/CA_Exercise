@@ -1,0 +1,11 @@
+addi x8, x0, 7
+addi x9, x8, 2
+sd x9, 0(x0)
+ld x17, 0(x0)
+ld x18, 8(x0)
+add x19, x17, x18
+beq x9, x17, FINAL
+add x20, x8, x9
+FINAL: add x20, x18, x19
+sll x21, x18, x8
+STOP

@@ -2,7 +2,7 @@
 //Function: ALU control is a combinational circuit that takes the ALU control signals from the Control unit as well as the function field of the instruction, and generates the control signals for the ALU
 
 module alu_control(
-      input wire       func7_30,
+      input wire       func7_5,
       input wire [2:0] func3,
 		input wire [1:0] alu_op,
 		output reg [3:0] alu_control
@@ -29,7 +29,7 @@ module alu_control(
    //The decoding of the instruction funtion field into the desired
    //alu operation can be found in Figure 4.12 of the Patterson Book,
    //section 4.4
-   wire [3:0] function_field = {func7_30, func3};
+   wire [3:0] function_field = {func7_5, func3};
    parameter [3:0] FUNC_ADD      = 4'b0000;
    parameter [3:0] FUNC_SUB      = 4'b1000;
    parameter [3:0] FUNC_AND      = 4'b0111;
