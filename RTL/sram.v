@@ -151,12 +151,12 @@ end
 
 
 always@(*)begin
-   addr_i      = addr    [8:2];
-   addr_ext_i  = addr_ext[8:2];
+   addr_i      = addr    [9:3];
+   addr_ext_i  = addr_ext[9:3];
    wen_n       = ~wen;
    wen_ext_n   = ~wen_ext;
-   mem_sel     = addr    [ADDR_W-1+2:ADDR_W-SEL_W+2];
-   mem_sel_ext = addr_ext[ADDR_W-1+2:ADDR_W-SEL_W+2];
+   mem_sel     = addr    [ADDR_W-1+3:ADDR_W-SEL_W+3];
+   mem_sel_ext = addr_ext[ADDR_W-1+3:ADDR_W-SEL_W+3];
 end
 
 genvar index_depth;
