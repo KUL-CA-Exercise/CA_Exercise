@@ -1,0 +1,29 @@
+//
+// File created by:  ncverilog
+// Do not modify this file
+//
++sv
++nc64bit
++nctimescale+1ns/10ps
++access+rwc
++gui
+-gui
+-MESSAGES
++EMGRLOG
+ncverilog.log
+-XLSTIME
+1646928661
+-XLKEEP
+-XLMODE
+./INCA_libs/irun.lnx8664.15.20.nc
+-RUNMODE
+-CDSLIB
+./INCA_libs/irun.lnx8664.15.20.nc/cds.lib
+-HDLVAR
+./INCA_libs/irun.lnx8664.15.20.nc/hdl.var
+-XLNAME
+ncverilog
+-XLVERSION
+"TOOL:	ncverilog	15.20-s058"
+-XLNAME
+./INCA_libs/irun.lnx8664.15.20.nc/pc-klas4-5.esat.kuleuven.be_36141
