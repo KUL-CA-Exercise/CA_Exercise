@@ -76,6 +76,28 @@ module control_unit(
             jump      = 1'b1;
          end
 
+         LOAD_WORD:begin
+            alu_src   = 1'b0;
+            mem_2_reg = 1'b1;
+            reg_write = 1'b1;
+            mem_read  = 1'b1;
+            mem_write = 1'b0;
+            branch    = 1'b0;
+            alu_op    = R_TYPE_OPCODE;
+            jump      = 1'b0;
+         end
+
+         STORE_WORD:begin
+            alu_src   = 1'b0;
+            mem_2_reg = 1'b0;
+            reg_write = 1'b0;
+            mem_read  = 1'b0;
+            mem_write = 1'b1;
+            branch    = 1'b0;
+            alu_op    = R_TYPE_OPCODE;
+            jump      = 1'b0;
+         end
+
          // Declare the control signals for each one of the instructions here...
          
          default:begin
