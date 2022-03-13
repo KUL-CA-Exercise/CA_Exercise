@@ -77,7 +77,7 @@ module control_unit(
          end
 
          LOAD_WORD:begin
-            alu_src   = 1'b0;
+            alu_src   = 1'b1;
             mem_2_reg = 1'b1;
             reg_write = 1'b1;
             mem_read  = 1'b1;
@@ -88,7 +88,7 @@ module control_unit(
          end
 
          STORE_WORD:begin
-            alu_src   = 1'b0;
+            alu_src   = 1'b1;
             mem_2_reg = 1'b0;
             reg_write = 1'b0;
             mem_read  = 1'b0;
