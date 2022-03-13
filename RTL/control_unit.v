@@ -42,7 +42,7 @@ module control_unit(
             alu_op    = R_TYPE_OPCODE;
             jump      = 1'b0;
          end
-         
+
          ALU_I:begin
             alu_src   = 1'b1;
             mem_2_reg = 1'b0;
@@ -76,7 +76,7 @@ module control_unit(
             jump      = 1'b1;
          end
 
-         LOAD_WORD:begin
+         LOAD:begin
             alu_src   = 1'b1;
             mem_2_reg = 1'b1;
             reg_write = 1'b1;
@@ -87,7 +87,7 @@ module control_unit(
             jump      = 1'b0;
          end
 
-         STORE_WORD:begin
+         STORE:begin
             alu_src   = 1'b1;
             mem_2_reg = 1'b0;
             reg_write = 1'b0;
