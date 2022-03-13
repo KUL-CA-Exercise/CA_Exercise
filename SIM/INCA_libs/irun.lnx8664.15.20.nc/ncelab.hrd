@@ -1,8 +1,0 @@
-//
-// File created by:  ncverilog
-// Do not modify this file
-//
--timescale
-1ns/10ps
--ACCESS
-+rwc
