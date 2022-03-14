@@ -32,15 +32,14 @@ module alu #(
    parameter [3:0] SRL_OP = 4'd4;
    parameter [3:0] SUB_OP = 4'd6;
    parameter [3:0] SLT_OP = 4'd7;
+   parameter [3:0] MUL_OP = 4'd8;
 
 
    //REG AND WIRE DECLARATION
    reg signed [DATA_W-1:0] sub_out,add_out,and_out,or_out,
-                           nor_out,slt_out, sll_out, srl_out;
-	reg 		               overflow_add,overflow_sub,
+                           nor_out,slt_out, sll_out, srl_out, mul_out;
+	reg 		               overflow_add, overflow_sub, overflow_mul,
                            msb_equal_flag;
-   
-   
    
    //ZERO FLAG 
    //
@@ -66,6 +65,7 @@ module alu #(
       and_out  =   alu_in_0 & alu_in_1;
       or_out   =   alu_in_0 | alu_in_1;
       slt_out  =  (alu_in_0 < alu_in_1) ? 1:0;        //Zero extend the 1 bit slt flag to a DATA_W bit value     
+      mul_out  =   alu_in_0 * alu_in_1;
    end
 
    //This block will translate into a multiplexer, where alu_ctrl
@@ -80,11 +80,10 @@ module alu #(
 			SLT_OP:  alu_out = slt_out;
 			SLL_OP:  alu_out = sll_out;
 			SRL_OP:  alu_out = srl_out;
+         MUL_OP:  alu_out = mul_out;
 			default: alu_out =     'd0;
 		endcase
 	end
-
-
 
    // OVERFLOW DETECTION
    always@(*)begin
@@ -113,13 +112,22 @@ module alu #(
       end
    end
 
-   always@(*)begin
-      if(alu_ctrl == ADD_OP)
-         overflow = overflow_add;
-      else
-         overflow = overflow_sub;
-  end 
+   always @(*) begin
+      if((msb_equal_flag == 1'b1) && (mul_out[DATA_W-1] != alu_in_0[DATA_W-1])) begin
+         overflow_mul = 1'b1;
+      end else begin
+         overflow_mul = 1'b0;
+      end
+   end
 
+   always@(*)begin
+      case (alu_ctrl)
+         ADD_OP:  overflow = overflow_add;
+         SUB_OP:  overflow = overflow_sub;
+         MUL_OP:  overflow = overflow_mul;
+         default: overflow = 1'b0;
+      endcase
+  end 
 
 endmodule
 
