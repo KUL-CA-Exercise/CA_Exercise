@@ -3,6 +3,7 @@
 
 module alu_control(
       input wire       func7_5,
+      input wire       func7_0,
       input wire [2:0] func3,
 		input wire [1:0] alu_op,
 		output reg [3:0] alu_control
@@ -24,7 +25,7 @@ module alu_control(
    parameter [3:0] SRL_OP        = 4'd4;
    parameter [3:0] SUB_OP        = 4'd6;
    parameter [3:0] SLT_OP        = 4'd7;
-
+   parameter [3:0] MUL_OP        = 4'd8;
 
    //The decoding of the instruction funtion field into the desired
    //alu operation can be found in Figure 4.12 of the Patterson Book,
@@ -37,6 +38,7 @@ module alu_control(
    parameter [3:0] FUNC_SLT      = 4'b0010;
    parameter [3:0] FUNC_SLL      = 4'b0001;
    parameter [3:0] FUNC_SRL      = 4'b0101;
+   parameter [3:0] FUNC_MUL      = 4'b0001;
 
 	reg [3:0] rtype_op;
    
@@ -49,6 +51,7 @@ module alu_control(
 		   FUNC_SLT	:  rtype_op = SLT_OP;
 		   FUNC_SLL	:  rtype_op = SLL_OP;
 		   FUNC_SRL	:  rtype_op = SRL_OP;
+         FUNC_MUL	:  rtype_op = MUL_OP;
 			default:    rtype_op = 4'd0;
 		endcase
 	end

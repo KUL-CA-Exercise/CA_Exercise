@@ -137,6 +137,7 @@ register_file #(
 
 alu_control alu_ctrl(
    .func7_5       (instruction[30]   ),
+   .func7_0       (instruction[25]   ),
    .func3          (instruction[14:12]),
    .alu_op         (alu_op            ),
    .alu_control    (alu_control       )
