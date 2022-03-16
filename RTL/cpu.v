@@ -143,7 +143,7 @@ immediate_extend_unit immediate_extend_u(
 
 // Pipeline: ID_EX stage
 reg_arstn_en#(
-   .DATA_W(271)
+   .DATA_W(274)
 )
 pipeline_ID_EX(
    .clk     (clk),
@@ -152,12 +152,12 @@ pipeline_ID_EX(
    .din     ({alu_op, alu_src, branch, mem_read, mem_write, mem_2_reg, reg_write,   // Ctrl Unit: 8 bits
               updated_pc_id, regfile_rdata_1, regfile_rdata_2,                      // 64 + 64 + 64 bits
               immediate_extended,                                                   // 64 bits
-              instruction_id[30], instruction_id[25], instruction_id[14:12], instruction_id[11:7]          // 7 bits
+              instruction_id[30], instruction_id[25], instruction_id[14:12], instruction_id[11:7]          // 10 bits
             }),
    .dout    ({alu_op_ex, alu_src_ex, branch_ex, mem_read_ex, mem_write_ex, mem_2_reg_ex, reg_write_ex,
               updated_pc_ex, regfile_rdata_1_ex, regfile_rdata_2_ex, // 64 + 64 + 64 bits
               immediate_extended_ex,                              // 64 bits
-              instruction_ex[30], instruction_ex[25], instruction_ex[14:12], instruction_ex[11:7]    // 7 bits
+              instruction_ex[30], instruction_ex[25], instruction_ex[14:12], instruction_ex[11:7]    // 10 bits
             })
 );
 
