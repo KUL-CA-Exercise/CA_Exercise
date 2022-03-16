@@ -34,7 +34,6 @@ module alu #(
    parameter [3:0] SLT_OP = 4'd7;
    parameter [3:0] MUL_OP = 4'd8;
 
-
    //REG AND WIRE DECLARATION
    reg signed [DATA_W-1:0] sub_out,add_out,and_out,or_out,
                            nor_out,slt_out, sll_out, srl_out, mul_out;
