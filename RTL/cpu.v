@@ -158,7 +158,7 @@ pipeline_ID_EX(
               updated_pc_ex, regfile_rdata_1_ex, regfile_rdata_2_ex, // 64 + 64 + 64 bits
               immediate_extended_ex,                              // 64 bits
               instruction_ex[30], instruction_ex[25], instruction_ex[11:7]    // 7 bits
-            }),
+            })
 );
 
 alu_control alu_ctrl(
