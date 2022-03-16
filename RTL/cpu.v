@@ -105,7 +105,7 @@ pipeline_IF_ID(
    .clk     (clk),
    .arst_n  (arst_n),
    .en      (enable),
-   .din     ({updated_pc, instruction}),
+   .din     ({current_pc, instruction}),
    .dout    ({updated_pc_id, instruction_id})
 );
 
