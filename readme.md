@@ -104,5 +104,9 @@ This module implements a register with variable width, which is set through the 
 Since the pipelined processor implemented does not have support for handling data hazards, the execution of more complex code containing branches or data dependencies would not work properly.  Add hardware support for forwarding and stalling in order to achieve this functionality. Run synthesis, and compare the results with previous implementations.  After updating your design, run the test code MULT3 and ensure the correct functionality. Finally, run the synthesis scripts
 
 ### 5 - Advanced Acceleration
+This last exercise aims at demonstrating how an architecture can leverage the structure of a program to speed up its execution. To do so, your task for this exercise will be to accelerate the execution of the following matrix-matrix multiplication:
 
-TODO
+<img src="https://raw.githubusercontent.com/KUL-CA-Exercise/CA_Exercise/main/.github/images/matmul.svg" width="500">
+
+For this exercise, a baseline program (MULT4) is provided to execute this matrix multiplication. This program operates on two matrices I and W stored in row-major order and column-major order, respectively, and appends the result O in row-major order after the operand matrices in the data memory space. 
+Using your pipelined implementation as a basis, elaborate a solution to accelerate the executions of matrix multiplications (hints: Patterson-Hennessy Section 4.8 to 4.10, RISC-V specification chapter 17). Simulate and synthesize your design.

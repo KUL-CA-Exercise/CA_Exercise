@@ -97,6 +97,7 @@ module control_unit(
             alu_op    = ADD_OPCODE;
             jump      = 1'b0;
          end
+        
          // Declare the control signals for each one of the instructions here...
 
          default:begin

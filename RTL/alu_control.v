@@ -30,6 +30,7 @@ module alu_control(
    //The decoding of the instruction funtion field into the desired
    //alu operation can be found in Figure 4.12 of the Patterson Book,
    //section 4.4
+
    wire [4:0] function_field = {func7_5, func7_0, func3};
    parameter [4:0] FUNC_ADD      = 5'b00000;
    parameter [4:0] FUNC_SUB      = 5'b10000;
