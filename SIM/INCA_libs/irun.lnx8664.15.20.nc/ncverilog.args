@@ -1,0 +1,11 @@
+//
+// File created by:  ncverilog
+// Do not modify this file
+//
++sv
+-f
+files_verilog.f
++nc64bit
++nctimescale+1ns/10ps
++access+rwc
+-ALLOWREDEFINITION
