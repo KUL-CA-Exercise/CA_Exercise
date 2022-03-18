@@ -10,10 +10,10 @@ module forward_unit(
 	output reg [1:0] mux_alu_2
 );
 	always @(*) begin	
-		if((rs1_ex == rd_mem || rs2_ex == rd_mem) && mem_read) begin
+		if((rs1_ex == rd_mem || rs2_ex == rd_mem)) begin
 			mux_alu_1 = 2'b10;
 			mux_alu_2 = 2'b10;
-		end else if((rs1_ex == rd_wb || rs2_ex == rd_wb) && mem_2_reg) begin
+		end else if((rs1_ex == rd_wb || rs2_ex == rd_wb)) begin
 			mux_alu_1 = 2'b1;
 			mux_alu_2 = 2'b1;
 		end else begin
