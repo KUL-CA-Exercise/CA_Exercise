@@ -7,16 +7,17 @@ module forward_unit(
 	output wire [1:0] mux_alu_1,
 	output wire [1:0] mux_alu_2
 );
-
-	if(rs1_ex == rd_mem || rs2_ex == rd_mem) begin
-		mux_alu_1 = 2'b10;
-		mux_alu_2 = 2'b10;
-	end else if(rs1_ex == rd_wb || rs2_ex == rd_wb) begin
-		mux_alu_1 = 2'b01;
-		mux_alu_2 = 2'b01;
-	end else begin
-		mux_alu_1 = 2'b00;
-		mux_alu_2 = 2'b00;
+	always @(*) begin	
+		if(rs1_ex == rd_mem || rs2_ex == rd_mem) begin
+			mux_alu_1 = 2'b10;
+			mux_alu_2 = 2'b10;
+		end else if(rs1_ex == rd_wb || rs2_ex == rd_wb) begin
+			mux_alu_1 = 2'b01;
+			mux_alu_2 = 2'b01;
+		end else begin
+			mux_alu_1 = 2'b00;
+			mux_alu_2 = 2'b00;
+		end
 	end
 
 endmodule
