@@ -43,7 +43,7 @@ wire [      63:0] branch_pc, updated_pc, current_pc, jump_pc,
                   updated_pc_id, updated_pc_ex, branch_pc_mem, jump_pc_mem, updated_pc_mem;
 wire [      31:0] instruction, instruction_id, instruction_ex,
                   instruction_mem, instruction_wb;
-wire [       1:0] alu_op, alu_op_ex
+wire [       1:0] alu_op, alu_op_ex,
                   fwd_mux_1, fwd_mux_2;
 wire [       3:0] alu_control;
 wire              reg_dst, branch, mem_read, mem_2_reg,
