@@ -184,7 +184,7 @@ mux_2 #(
    .DATA_W(64)
 ) alu_operand_mux (
    .input_a (immediate_extended_ex ),
-   .input_b (regfile_rdata_2_ex    ),
+   .input_b (fwd_mux_out_2    ),
    .select_a(alu_src_ex         ),
    .mux_out (alu_operand_2     )
 );
@@ -202,7 +202,7 @@ mux_3 #(
 mux_3 #(
    .DATA_W(64)
 ) fwd_unit_alu_op2 (
-   .input_a (alu_operand_2    ),
+   .input_a (regfile_rdata_2_ex    ),
    .input_b (regfile_wdata    ),
    .input_c (alu_out_mem      ),
    .sel     (fwd_mux_2        ),
@@ -213,7 +213,7 @@ alu#(
    .DATA_W(64)
 ) alu(
    .alu_in_0 (fwd_mux_out_1   ),
-   .alu_in_1 (fwd_mux_out_2   ),
+   .alu_in_1 (alu_operand_2   ),
    .alu_ctrl (alu_control     ),
    .alu_out  (alu_out         ),
    .zero_flag(zero_flag       ),
