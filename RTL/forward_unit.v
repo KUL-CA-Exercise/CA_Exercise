@@ -4,8 +4,8 @@ module forward_unit(
 	input wire [4:0] rd_mem,
 	input wire [4:0] rd_wb,
 		
-	output wire [1:0] mux_alu_1,
-	output wire [1:0] mux_alu_2
+	output reg [1:0] mux_alu_1,
+	output reg [1:0] mux_alu_2
 );
 	always @(*) begin	
 		if(rs1_ex == rd_mem || rs2_ex == rd_mem) begin
