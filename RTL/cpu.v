@@ -170,6 +170,7 @@ alu_control alu_ctrl(
    .alu_control    (alu_control       )
 );
 
+// todo: opcode matters
 forward_unit fwd_u(
    .rs1_ex         (instruction_ex[19:15]),
    .rs2_ex         (instruction_ex[24:20]),

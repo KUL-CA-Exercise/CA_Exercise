@@ -11,7 +11,7 @@ module forward_unit(
 );
 	always @(*) begin	
 		if((rs1_ex == rd_mem || rs2_ex == rd_mem)) begin
-			mux_alu_1 = 2'b10;
+			mux_alu_1 = 2'b0;
 			mux_alu_2 = 2'b10;
 		end else if((rs1_ex == rd_wb || rs2_ex == rd_wb)) begin
 			mux_alu_1 = 2'b1;
