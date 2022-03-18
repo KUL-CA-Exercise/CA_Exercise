@@ -10,12 +10,18 @@ module forward_unit(
 	output reg [1:0] mux_alu_2
 );
 	always @(*) begin	
-		if((rs1_ex == rd_mem || rs2_ex == rd_mem)) begin
+		if(rs1_ex == rd_mem) begin
 			//todo: remove hard wire
 			mux_alu_1 = 2'b10;
 			mux_alu_2 = 2'b0;
-		end else if((rs1_ex == rd_wb || rs2_ex == rd_wb)) begin
+		end else if(rs2_ex == rd_mem) begin
+			mux_alu_1 = 2'b0;
+			mux_alu_2 = 2'b10;
+		end else if(rs1_ex == rd_wb) begin
 			mux_alu_1 = 2'b1;
+			mux_alu_2 = 2'b0;
+		end else if(rs2_ex == rd_wb) begin
+			mux_alu_1 = 2'b0;
 			mux_alu_2 = 2'b1;
 		end else begin
 			mux_alu_1 = 2'b00;
