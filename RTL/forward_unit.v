@@ -11,7 +11,6 @@ module forward_unit(
 );
 	always @(*) begin	
 		if(rs1_ex == rd_mem) begin
-			//todo: remove hard wire
 			mux_alu_1 = 2'b10;
 			mux_alu_2 = 2'b0;
 		end else if(rs2_ex == rd_mem) begin
