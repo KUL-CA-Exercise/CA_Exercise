@@ -10,19 +10,22 @@ module mux_3
    );
 
    always@(*)begin
-	case(sel)
-	    2'b0:begin
-	    	mux_out = input_a;
-	    end
+   	case(sel)
+   	   2'b0:begin
+   	   	mux_out = input_a;
+   	   end
 
-	    2'b1:begin
-	    	mux_out = input_b;
-	    end
+   	   2'b1:begin
+   	   	mux_out = input_b;
+   	   end
 
-	    2'b10:begin
-	    	mux_out = input_c;
-	    end
-	endcase
+   	   2'b10:begin
+   	   	mux_out = input_c;
+   	   end
+
+         default:begin
+            mux_out = input_a;
+         end
+   	endcase
    end
 endmodule
-

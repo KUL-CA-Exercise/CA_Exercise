@@ -43,7 +43,8 @@ wire [      63:0] branch_pc, updated_pc, current_pc, jump_pc,
                   updated_pc_id, updated_pc_ex, branch_pc_mem, jump_pc_mem, updated_pc_mem;
 wire [      31:0] instruction, instruction_id, instruction_ex,
                   instruction_mem, instruction_wb;
-wire [       1:0] alu_op, alu_op_ex;
+wire [       1:0] alu_op, alu_op_ex
+                  fwd_mux_1, fwd_mux_2;
 wire [       3:0] alu_control;
 wire              reg_dst, branch, mem_read, mem_2_reg,
                   mem_write, alu_src, reg_write, jump,
@@ -60,7 +61,7 @@ wire [       4:0] regfile_waddr;
 wire [      63:0] regfile_wdata, mem_data, mem_data_wb, alu_out, alu_out_mem, alu_out_wb,
                   regfile_rdata_1, regfile_rdata_2,
                   regfile_rdata_1_ex, regfile_rdata_2_ex, regfile_rdata_2_mem,
-                  alu_operand_2;
+                  alu_operand_2, fwd_mux_out_1, fwd_mux_out_2;
 
 wire signed [63:0] immediate_extended, immediate_extended_ex;
 
@@ -143,7 +144,7 @@ immediate_extend_unit immediate_extend_u(
 
 // Pipeline: ID_EX stage
 reg_arstn_en#(
-   .DATA_W(274)
+   .DATA_W(296)
 )
 pipeline_ID_EX(
    .clk     (clk),
@@ -152,12 +153,12 @@ pipeline_ID_EX(
    .din     ({alu_op, alu_src, branch, mem_read, mem_write, mem_2_reg, reg_write,   // Ctrl Unit: 8 bits
               updated_pc_id, regfile_rdata_1, regfile_rdata_2,                      // 64 + 64 + 64 bits
               immediate_extended,                                                   // 64 bits
-              instruction_id[30], instruction_id[25], instruction_id[14:12], instruction_id[11:7]          // 10 bits
+              instruction_id                                                        // 32 bits
             }),
    .dout    ({alu_op_ex, alu_src_ex, branch_ex, mem_read_ex, mem_write_ex, mem_2_reg_ex, reg_write_ex,
-              updated_pc_ex, regfile_rdata_1_ex, regfile_rdata_2_ex, // 64 + 64 + 64 bits
-              immediate_extended_ex,                              // 64 bits
-              instruction_ex[30], instruction_ex[25], instruction_ex[14:12], instruction_ex[11:7]    // 10 bits
+              updated_pc_ex, regfile_rdata_1_ex, regfile_rdata_2_ex,                // 64 + 64 + 64 bits
+              immediate_extended_ex,                                                // 64 bits
+              instruction_ex                                                        // 32 bits
             })
 );
 
@@ -169,6 +170,16 @@ alu_control alu_ctrl(
    .alu_control    (alu_control       )
 );
 
+forward_unit fwd_u(
+   .rs1_ex         (instruction_ex[19:15]),
+   .rs2_ex         (instruction_ex[24:20]),
+   .rd_mem         (instruction_mem[11:7]),
+   .rd_wb          (instruction_wb[11:7] ),
+
+   .mux_alu_1      (fwd_mux_1),
+   .mux_alu_2      (fwd_mux_2)
+);
+
 mux_2 #(
    .DATA_W(64)
 ) alu_operand_mux (
@@ -178,11 +189,31 @@ mux_2 #(
    .mux_out (alu_operand_2     )
 );
 
+mux_3 #(
+   .DATA_W(64)
+) fwd_unit_alu_op1 (
+   .input_a (regfile_rdata_1_ex    ),
+   .input_b (regfile_wdata    ),
+   .input_c (alu_out_mem      ),
+   .sel     (fwd_mux_1        ),
+   .mux_out (fwd_mux_out_1    )
+);
+
+mux_3 #(
+   .DATA_W(64)
+) fwd_unit_alu_op2 (
+   .input_a (alu_operand_2    ),
+   .input_b (regfile_wdata    ),
+   .input_c (alu_out_mem      ),
+   .sel     (fwd_mux_2        ),
+   .mux_out (fwd_mux_out_2    )
+);
+
 alu#(
    .DATA_W(64)
 ) alu(
-   .alu_in_0 (regfile_rdata_1_ex ),
-   .alu_in_1 (alu_operand_2   ),
+   .alu_in_0 (fwd_mux_out_1   ),
+   .alu_in_1 (fwd_mux_out_2   ),
    .alu_ctrl (alu_control     ),
    .alu_out  (alu_out         ),
    .zero_flag(zero_flag       ),

@@ -14,6 +14,8 @@ set verilog_files { \
    reg_arstn_en
    register_file
    sram
+   mux_3
+   forward_unit
 }
 
 
