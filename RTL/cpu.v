@@ -54,6 +54,7 @@ wire              reg_dst, branch, mem_read, mem_2_reg,
                   branch_ex, branch_mem, 
                   mem_read_ex, mem_read_mem, 
                   mem_write_ex, mem_write_mem,
+                  jump_ex, jump_mem,
                   // wb stage
                   mem_2_reg_ex, mem_2_reg_mem, mem_2_reg_wb,
                   reg_write_ex, reg_write_mem, reg_write_wb;
@@ -74,7 +75,7 @@ pc #(
    .jump_pc   (jump_pc_mem   ),
    .zero_flag (zero_flag_mem ),
    .branch    (branch_mem    ),
-   .jump      (jump      ),
+   .jump      (jump_mem      ),
    .current_pc(current_pc),
    .enable    (enable    ),
    .updated_pc(updated_pc)
@@ -144,18 +145,18 @@ immediate_extend_unit immediate_extend_u(
 
 // Pipeline: ID_EX stage
 reg_arstn_en#(
-   .DATA_W(296)
+   .DATA_W(297)
 )
 pipeline_ID_EX(
    .clk     (clk),
    .arst_n  (arst_n),
    .en      (enable),
-   .din     ({alu_op, alu_src, branch, mem_read, mem_write, mem_2_reg, reg_write,   // Ctrl Unit: 8 bits
+   .din     ({alu_op, alu_src, branch, mem_read, mem_write, mem_2_reg, reg_write, jump  // Ctrl Unit: 9 bits
               updated_pc_id, regfile_rdata_1, regfile_rdata_2,                      // 64 + 64 + 64 bits
               immediate_extended,                                                   // 64 bits
               instruction_id                                                        // 32 bits
             }),
-   .dout    ({alu_op_ex, alu_src_ex, branch_ex, mem_read_ex, mem_write_ex, mem_2_reg_ex, reg_write_ex,
+   .dout    ({alu_op_ex, alu_src_ex, branch_ex, mem_read_ex, mem_write_ex, mem_2_reg_ex, reg_write_ex, jump_ex,
               updated_pc_ex, regfile_rdata_1_ex, regfile_rdata_2_ex,                // 64 + 64 + 64 bits
               immediate_extended_ex,                                                // 64 bits
               instruction_ex                                                        // 32 bits
@@ -233,18 +234,18 @@ branch_unit#(
 
 // Pipeline: EX_MEM stage
 reg_arstn_en#(
-   .DATA_W(267)
+   .DATA_W(268)
 )
 pipeline_EX_MEM(
    .clk     (clk),
    .arst_n  (arst_n),
    .en      (enable),
-   .din     ({branch_ex, mem_read_ex, mem_write_ex, mem_2_reg_ex, reg_write_ex,        // 5 bits
+   .din     ({branch_ex, mem_read_ex, mem_write_ex, mem_2_reg_ex, reg_write_ex, jump_ex       // 6 bits
               branch_pc, jump_pc, alu_out, zero_flag,                                  // 64 + 64 + 64 + 1 bits
               regfile_rdata_2_ex,                                                      // 64 bits
               instruction_ex[11:7]                                                     // 5 bits
             }),
-   .dout    ({branch_mem, mem_read_mem, mem_write_mem, mem_2_reg_mem, reg_write_mem,
+   .dout    ({branch_mem, mem_read_mem, mem_write_mem, mem_2_reg_mem, reg_write_mem, jump_mem,
               branch_pc_mem, jump_pc_mem, alu_out_mem, zero_flag_mem,
               regfile_rdata_2_mem,
               instruction_mem[11:7]
@@ -297,5 +298,3 @@ mux_2 #(
 );
 
 endmodule
-
-
