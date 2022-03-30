@@ -151,7 +151,7 @@ pipeline_ID_EX(
    .clk     (clk),
    .arst_n  (arst_n),
    .en      (enable),
-   .din     ({alu_op, alu_src, branch, mem_read, mem_write, mem_2_reg, reg_write, jump  // Ctrl Unit: 9 bits
+   .din     ({alu_op, alu_src, branch, mem_read, mem_write, mem_2_reg, reg_write, jump,  // Ctrl Unit: 9 bits
               updated_pc_id, regfile_rdata_1, regfile_rdata_2,                      // 64 + 64 + 64 bits
               immediate_extended,                                                   // 64 bits
               instruction_id                                                        // 32 bits
@@ -240,7 +240,7 @@ pipeline_EX_MEM(
    .clk     (clk),
    .arst_n  (arst_n),
    .en      (enable),
-   .din     ({branch_ex, mem_read_ex, mem_write_ex, mem_2_reg_ex, reg_write_ex, jump_ex       // 6 bits
+   .din     ({branch_ex, mem_read_ex, mem_write_ex, mem_2_reg_ex, reg_write_ex, jump_ex,       // 6 bits
               branch_pc, jump_pc, alu_out, zero_flag,                                  // 64 + 64 + 64 + 1 bits
               regfile_rdata_2_ex,                                                      // 64 bits
               instruction_ex[11:7]                                                     // 5 bits
