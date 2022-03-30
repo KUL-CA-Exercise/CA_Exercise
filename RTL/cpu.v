@@ -116,12 +116,12 @@ control_unit control_unit(
    .alu_op   (alu_op          ), // EX
    .alu_src  (alu_src         ), // EX
    .branch   (branch          ), // MEM
+   .jump     (jump            ),  // MEM
    .mem_read (mem_read        ), // MEM
    .mem_write(mem_write       ), // MEM
    .mem_2_reg(mem_2_reg       ), // WB
    .reg_write(reg_write       ), // WB
-   .reg_dst  (reg_dst         ), // NC? 
-   .jump     (jump            )  // ???
+   .reg_dst  (reg_dst         ) // NC? 
 );
 
 register_file #(
