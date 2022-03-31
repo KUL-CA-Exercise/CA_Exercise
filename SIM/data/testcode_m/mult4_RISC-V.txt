@@ -11,30 +11,14 @@ addi x7, x0, 0 # accumation result initilization
 B_CHECK: beq x23, x13, B_END
 K_CHECK: beq x22, x12, K_END
 C_CHECK: beq x21, x11, C_END
-nop
-nop
-nop
-nop
 ld x4, 0(x25) # load 1 input data
 ld x5, 0(x26) # load 1 weight data
-nop
-nop
-nop
-nop
 mul x6, x4, x5 # multiply the input with the weight
 add x7, x7, x6 # accumulate the result
 addi x21, x21, 1 # C loop index +1
 addi x25, x25, 8 # input's 64-bit word address +1
 addi x26, x26, 8 # weight's 64-bit word address +1
-nop
-nop
-nop
-nop
 jal C_CHECK
-nop
-nop
-nop
-nop
 C_END: addi x21, x0, 0 # C loop index restarts with 0
 sd x7, 0(x27) # store the output data
 addi x7, x0, 0 # accumation result reset to 0
