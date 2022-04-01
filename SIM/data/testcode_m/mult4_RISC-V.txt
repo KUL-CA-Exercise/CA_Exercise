@@ -29,6 +29,10 @@ nop
 nop
 C_END: addi x21, x0, 0 # C loop index restarts with 0
 sd x7, 0(x27) # store the output data
+nop
+nop
+nop
+nop
 addi x7, x0, 0 # accumation result reset to 0
 addi x22, x22, 1 # K loop index +1
 addi x25, x25, -40 # input's 64-bit word address -5
