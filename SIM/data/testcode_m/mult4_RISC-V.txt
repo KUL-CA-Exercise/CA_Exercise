@@ -42,5 +42,7 @@ K_END: addi x22, x0, 0 # K loop index restarts with 0
 addi x23, x23, 1 # B loop index +1
 addi x25, x25, 40 # input's 64-bit word address +5
 addi x26, x26, -120 # input's 64-bit word address -15
+nop
+nop
 jal B_CHECK
 B_END:
