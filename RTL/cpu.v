@@ -176,8 +176,8 @@ forward_unit fwd_u(
    .rs2_ex         (instruction_ex[24:20]),
    .rd_mem         (instruction_mem[11:7]),
    .rd_wb          (instruction_wb[11:7] ),
-   .mem_read       (mem_read_ex          ),
-   .mem_2_reg      (mem_2_reg_wb         ),
+   .reg_write_mem  (reg_write_mem        ),
+   .reg_write_wb   (reg_write_wb         ),
 
    .mux_alu_1      (fwd_mux_1),
    .mux_alu_2      (fwd_mux_2)
