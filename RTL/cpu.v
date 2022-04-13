@@ -44,7 +44,9 @@ wire [      63:0] branch_pc, updated_pc, current_pc, jump_pc,
 wire [      31:0] instruction, instruction_id, instruction_ex,
                   instruction_mem, instruction_wb;
 wire [       1:0] alu_op, alu_op_ex,
-                  fwd_mux_1, fwd_mux_2;
+                  fwd_mux_1, fwd_mux_2,
+                  // hazard unit
+                  alu_op_h;
 wire [       3:0] alu_control;
 wire              reg_dst, branch, mem_read, mem_2_reg,
                   mem_write, alu_src, reg_write, jump,
@@ -57,7 +59,12 @@ wire              reg_dst, branch, mem_read, mem_2_reg,
                   jump_ex, jump_mem,
                   // wb stage
                   mem_2_reg_ex, mem_2_reg_mem, mem_2_reg_wb,
-                  reg_write_ex, reg_write_mem, reg_write_wb;
+                  reg_write_ex, reg_write_mem, reg_write_wb,
+                  // hazard detection unit
+                  pc_write, pipeline_id_en, hazard_mux_sel,
+                  alu_src_h, branch_h, jump_h, mem_read_h,
+                  mem_2_reg_h, mem_write_h, reg_write_h;
+
 wire [       4:0] regfile_waddr;
 wire [      63:0] regfile_wdata, mem_data, mem_data_wb, alu_out, alu_out_mem, alu_out_wb,
                   regfile_rdata_1, regfile_rdata_2,
@@ -69,16 +76,16 @@ wire signed [63:0] immediate_extended, immediate_extended_ex;
 pc #(
    .DATA_W(64)
 ) program_counter (
-   .clk       (clk       ),
-   .arst_n    (arst_n    ),
-   .branch_pc (branch_pc_mem ),
-   .jump_pc   (jump_pc_mem   ),
-   .zero_flag (zero_flag_mem ),
-   .branch    (branch_mem    ),
-   .jump      (jump_mem      ),
-   .current_pc(current_pc),
-   .enable    (enable    ),
-   .updated_pc(updated_pc)
+   .clk       (clk               ),
+   .arst_n    (arst_n            ),
+   .branch_pc (branch_pc_mem     ),   
+   .jump_pc   (jump_pc_mem       ),
+   .zero_flag (zero_flag_mem     ),
+   .branch    (branch_mem        ),
+   .jump      (jump_mem          ),
+   .current_pc(current_pc        ),
+   .enable    (enable && pc_write),
+   .updated_pc(updated_pc        )
 );
 
 // The instruction memory.
@@ -99,16 +106,33 @@ sram_BW32 #(
    .rdata_ext(rdata_ext     )
 );
 
-// Pipeline: IF_ID stage
+
+/////////////////////////////////////
+//////                       ////////
+////// Pipeline: IF_ID stage ////////
+//////                       ////////
+/////////////////////////////////////
+
 reg_arstn_en#(
    .DATA_W(96)
 )
 pipeline_IF_ID(
-   .clk     (clk),
-   .arst_n  (arst_n),
-   .en      (enable),
-   .din     ({current_pc, instruction}),
-   .dout    ({updated_pc_id, instruction_id})
+   .clk     (clk                             ),
+   .arst_n  (arst_n                          ),
+   .en      (enable && pipeline_id_en        ),
+   .din     ({current_pc, instruction}       ),
+   .dout    ({updated_pc_id, instruction_id} )
+);
+
+hazard_detection hazard_det_unit(
+   .rs1_id     (instruction_id[19:15]),
+   .rs2_id     (instruction_id[24:20]),
+   .rd_ex      (instruction_ex[11:7]),
+   .mem_read_ex(mem_read_ex),
+
+   .pc_w       (pc_write),
+   .pipeline_id_en(pipeline_id_en),
+   .hazard_mux_sel(hazard_mux_sel)
 );
 
 control_unit control_unit(
@@ -122,6 +146,15 @@ control_unit control_unit(
    .mem_2_reg(mem_2_reg       ), // WB
    .reg_write(reg_write       ), // WB
    .reg_dst  (reg_dst         ) // NC? 
+);
+
+//todo:
+hazard_mux hazard_mux(
+   .sel              (hazard_mux_sel),
+   .ctrl_unit_out    ({alu_op, alu_src, branch, jump, mem_read, 
+                       mem_write, mem_2_reg, reg_write}),
+   .hazard_mux_out   ({alu_op_h, alu_src_h, branch_h, jump_h, mem_read_h,
+                       mem_write_h, mem_2_reg_h, reg_write_h})
 );
 
 register_file #(
@@ -143,7 +176,12 @@ immediate_extend_unit immediate_extend_u(
     .immediate_extended  (immediate_extended)
 );
 
-// Pipeline: ID_EX stage
+//////////////////////////////////////
+//////                        ////////
+////// Pipeline: ID_EX stage  ////////
+//////                        ////////
+//////////////////////////////////////
+
 reg_arstn_en#(
    .DATA_W(297)
 )
@@ -151,7 +189,7 @@ pipeline_ID_EX(
    .clk     (clk),
    .arst_n  (arst_n),
    .en      (enable),
-   .din     ({alu_op, alu_src, branch, mem_read, mem_write, mem_2_reg, reg_write, jump,  // Ctrl Unit: 9 bits
+   .din     ({alu_op_h, alu_src_h, branch_h, mem_read_h, mem_write_h, mem_2_reg_h, reg_write_h, jump_h,  // Ctrl Unit: 9 bits
               updated_pc_id, regfile_rdata_1, regfile_rdata_2,                      // 64 + 64 + 64 bits
               immediate_extended,                                                   // 64 bits
               instruction_id                                                        // 32 bits
@@ -232,7 +270,12 @@ branch_unit#(
    .jump_pc            (jump_pc              )
 );
 
-// Pipeline: EX_MEM stage
+//////////////////////////////////////
+//////                        ////////
+////// Pipeline: EX_MEM stage ////////
+//////                        ////////
+//////////////////////////////////////
+
 reg_arstn_en#(
    .DATA_W(268)
 )
@@ -270,7 +313,12 @@ sram_BW64 #(
    .rdata_ext(rdata_ext_2    )
 );
 
-// Pipeline: MEM_WB stage
+//////////////////////////////////////
+//////                        ////////
+////// Pipeline: MEM_WB stage ////////
+//////                        ////////
+//////////////////////////////////////
+
 reg_arstn_en#(
    .DATA_W(135)
 )

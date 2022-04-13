@@ -22,7 +22,6 @@ nop
 nop
 ld x4, 0(x25) # load 1 input data
 ld x5, 0(x26) # load 1 weight data
-nop
 mul x6, x4, x5 # multiply the input with the weight
 add x7, x7, x6 # accumulate the result
 addi x21, x21, 1 # C loop index +1

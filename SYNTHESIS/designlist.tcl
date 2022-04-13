@@ -16,6 +16,8 @@ set verilog_files { \
    sram
    mux_3
    forward_unit
+   hazard_detection
+   hazard_mux
 }
 
 
