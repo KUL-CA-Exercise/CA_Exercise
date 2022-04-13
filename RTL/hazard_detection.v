@@ -12,11 +12,11 @@ module hazard_detection(input [4:0] rs1_id,
             pc_w           = 1'b0;
             pipeline_id_en = 1'b0;
             hazard_mux_sel = 1'b1;
-            end else begin
+        end else begin
             // no hazard
             pc_w           = 1'b1;
             pipeline_id_en = 1'b1;
-            hazard_mux_sel = 1'b0
+            hazard_mux_sel = 1'b0;
         end
     end
     
