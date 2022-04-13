@@ -148,7 +148,6 @@ control_unit control_unit(
    .reg_dst  (reg_dst         ) // NC? 
 );
 
-//todo:
 hazard_mux hazard_mux(
    .sel              (hazard_mux_sel),
    .ctrl_unit_out    ({alu_op, alu_src, branch, jump, mem_read, 
